@@ -8,10 +8,7 @@ public class Controller : MonoBehaviour
     public GameObject EnemyAI;
     public float MoveSpeed = 10.0f;
     private float distance;
-    private float distX;
-    private float distY;
     private float angle;
-    private Transform midPoint;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +24,7 @@ public class Controller : MonoBehaviour
             chasingPlayer();
     }
 
+    //Whether the player is in detect range
     private bool inRange()
     {
         distance = Vector3.Distance(Player.transform.position, EnemyAI.transform.position);
@@ -36,9 +34,10 @@ public class Controller : MonoBehaviour
 
     }
 
+    //Enemy moves toward to the player and faces player all the time.
     private void chasingPlayer()
     {
-        
+        //use trigonometry to simulate transfrom.lookat
         Vector3 a = EnemyAI.transform.position - Player.transform.position;
         
         float dot = Vector3.Dot( Vector3.right, a.normalized);
