@@ -12,7 +12,7 @@ public class Controller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Player.transform.position = new Vector3(12, 0, 0);
+        Player.transform.position = new Vector3(0, 0, 0);
         EnemyAI.transform.position = new Vector3(0, 0, 0);
     }
 
@@ -64,11 +64,11 @@ public class Controller : MonoBehaviour
         if (Input.GetKey (KeyCode.W))
         {
             
-            Player.transform.Translate(Vector3.up * Time.deltaTime * MoveSpeed);
+            Player.transform.Translate(Vector3.forward * Time.deltaTime * MoveSpeed);
         }
         if (Input.GetKey (KeyCode.S))
         {
-            Player.transform.Translate(Vector3.down * Time.deltaTime * MoveSpeed);
+            Player.transform.Translate(Vector3.back * Time.deltaTime * MoveSpeed);
         }
         if (Input.GetKey (KeyCode.A))
         {
