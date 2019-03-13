@@ -10,18 +10,13 @@ public class Matrix : MonoBehaviour
     
     List<Transformation> transformations;
     Matrix4x4 transformation;
+
     
-    
-    
-    
-    
-    
-    
-    
-    void Awake()
+    void Awake() // Awake is called even if the script component is not enabled.
     {
         transformations = new List<Transformation>();
         
+        // creating an array of points
         grid = new Transform[girdResolution * girdResolution * girdResolution];
         for (int i = 0, z = 0; z < girdResolution; z++)
         {
@@ -39,8 +34,7 @@ public class Matrix : MonoBehaviour
     void Update()
     {
         UpdateTransformation();
-        GetComponents<Transformation>(transformations); // GetComponent s 
-
+        
         for (int i = 0, z = 0; z < girdResolution; z++)
         {
             for (int y = 0; y < girdResolution; y++)
@@ -53,6 +47,8 @@ public class Matrix : MonoBehaviour
         }
     }
 
+    
+    // instantiate prefabs and assign every prefab a position
     Transform CreateGridPoint (int x, int y, int z)
     {
         Transform point = Instantiate<Transform>(prefab);
@@ -60,6 +56,7 @@ public class Matrix : MonoBehaviour
         return point;
     }
 
+    // return every point's local
     Vector3 GetCoordinates (int x, int y, int z)
     {
         return new Vector3(x - (girdResolution -1) * 0.5f, y - (girdResolution -1) * 0.5f, z - (girdResolution -1) * 0.5f);
@@ -68,15 +65,13 @@ public class Matrix : MonoBehaviour
     Vector3 TransformPoint (int x, int y, int z)
     {
         Vector3 coordinates = GetCoordinates(x, y, z);
-        for (int i = 0; i < transformations.Count; i++)
-        {
-            coordinates = transformations[i].Apply(coordinates);
-        }
-        return transformation.MultiplyPoint(coordinates);
+        return transformation.MultiplyPoint(coordinates); // MultiplyPoint is slower than MultiplyPoint3x4, but can handle projective transformations as well.
     }
 
+   
+   // get the first matrix and multiply it with others every update
     void UpdateTransformation () {
-		GetComponents<Transformation>(transformations);
+		GetComponents<Transformation>(transformations); // GetComponent s 
 		if (transformations.Count > 0) {
 			transformation = transformations[0].Matrix;
 			for (int i = 1; i < transformations.Count; i++) {
