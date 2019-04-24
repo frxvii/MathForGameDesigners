@@ -1,45 +1,68 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+
 public class LogicPuzzle : MonoBehaviour
 {
-    public Button[] characters = new Button[5];
-    private bool[] characterID = new bool[5];
-    public int[] buttonOnClick = new int[5]{0, 0, 0, 0, 0};
+    public Toggle[] players = new Toggle[5];
+    private bool[] characterID;
+    public List<bool> togglesOn = new List<bool>();
     
     private bool member1;
     private bool member2;
     private bool member3;
 
-    
+    private int member1Index =5 , member2Index =5, member3Index =5;
     
     
     
     void Start()
     {
-        ShuffleTheDeck();
-        SelectTeamMember();
-        MissionFor2(member1, member2);
-        SelectTeamMember();
-        MissionFor3(member1, member2, member3);
-        SelectTeamMember();
-        MissionFor2(member1, member2);
-        SelectTeamMember();
-        MissionFor3(member1, member2, member3);
-        SelectTeamMember();
-        MissionFor3(member1, member2, member3);
+        bool[] characterID = new bool[5]{true, true, true, true, true};
+        int i = Random.Range(0, 5);
+        characterID[i] = false;
+        int n = Random.Range(0, 5);
+        while (n == i)
+        {
+            n = Random.Range(0, 5);
+        }
+        characterID[n] = false;
+        //Debug.Log(characterID[0]);
+        //Debug.Log(characterID[1]);
+        //Debug.Log(characterID[2]);
+        //Debug.Log(characterID[3]);
+        //Debug.Log(characterID[4]);
+        Select1stTeamMembers();
+        
+        
+        Select2ndTeamMembers();
+        
+        if (member1Index < 5 && member2Index <5)
+        {
+            MissionOne(characterID[member1Index],characterID[member2Index]);
+        }
+
+        
+        
+        //MissionTwo(member1, member2, member3);
+        
+        //MissionThree(member1, member2);
+        
+        //MissionFour(member1, member2, member3);
+        
+        //MissionFive(member1, member2, member3);
+        
+        
 
     }
 
     void Update()
     {
-        Debug.Log(buttonOnClick[0]);
-        Debug.Log(buttonOnClick[1]);
-        Debug.Log(buttonOnClick[2]);
-        Debug.Log(buttonOnClick[3]);
-        Debug.Log(buttonOnClick[4]);
+
     }
 
 
@@ -57,65 +80,170 @@ public class LogicPuzzle : MonoBehaviour
             n = Random.Range(0, 5);
         }
         characterID[n] = false;
+        Debug.Log(characterID[0]);
+        Debug.Log(characterID[1]);
+        Debug.Log(characterID[2]);
+        Debug.Log(characterID[3]);
+        Debug.Log(characterID[4]);
     }
 
     // Mission succeed only if there is no spy in the team
-    bool MissionFor3(bool teamMember1, bool teamMember2, bool teamMember3)
-    {
-        if (teamMember1 && teamMember2 && teamMember3 == true)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        } 
-    }
+    
 
-    bool MissionFor2(bool teamMember1, bool teamMember2)
+    bool MissionOne(bool teamMember1, bool teamMember2)
     {
         if (teamMember1 && teamMember2 == true)
         {
+            Debug.Log("Mission One Secceed");
             return true;
         }
         else
         {
+            Debug.Log("Mission One Failed");
+            return false;
+        } 
+    }
+    bool MissionTwo(bool teamMember1, bool teamMember2, bool teamMember3)
+    {
+        System.Console.WriteLine("Select your team members");
+        
+        if (teamMember1 && teamMember2 && teamMember3 == true)
+        {
+            Debug.Log("Mission Two Secceed");
+            return true;
+        }
+        else
+        {
+            Debug.Log("Mission Two Failed");
+            return false;
+        } 
+    }
+    bool MissionThree(bool teamMember1, bool teamMember2)
+    {
+        if (teamMember1 && teamMember2 == true)
+        {
+            Debug.Log("Mission Three Secceed");
+            return true;
+        }
+        else
+        {
+            Debug.Log("Mission Three Failed");
+            return false;
+        } 
+    }
+    bool MissionFour(bool teamMember1, bool teamMember2, bool teamMember3)
+    {
+        System.Console.WriteLine("Select your team members");
+        
+        if (teamMember1 && teamMember2 && teamMember3 == true)
+        {
+            Debug.Log("Mission Four Secceed");
+            return true;
+        }
+        else
+        {
+            Debug.Log("Mission Four Failed");
+            return false;
+        } 
+    }
+    bool MissionFive(bool teamMember1, bool teamMember2, bool teamMember3)
+    {
+        System.Console.WriteLine("Select your team members");
+        
+        if (teamMember1 && teamMember2 && teamMember3 == true)
+        {
+            Debug.Log("Mission Five Secceed");
+            return true;
+        }
+        else
+        {
+            Debug.Log("Mission Five Failed");
             return false;
         } 
     }
 
-    void SelectTeamMember()
+    void Select1stTeamMembers()
     {
-        int total = buttonOnClick[0] + buttonOnClick[1] + buttonOnClick[2] + buttonOnClick[3] +buttonOnClick[4];
-        characters[0].onClick.AddListener(Button0);
+        Debug.Log("Select 1st Team Members by pressing 0-4");
         
-        characters[1].onClick.AddListener(Button1);
+        if (Input.GetKey (KeyCode.Alpha0))
+        {
+            member1Index = 0;
+        }
+        if (Input.GetKey (KeyCode.Alpha1))
+        {
+            member1Index = 1;
+        }
+        if (Input.GetKey (KeyCode.Alpha2))
+        {
+            member1Index = 2;
+        }
+        if (Input.GetKey (KeyCode.Alpha3))
+        {
+            member1Index = 3;
+        }
+        if (Input.GetKey (KeyCode.Alpha4))
+        {
+            member1Index = 4;
+        }
         
-        characters[2].onClick.AddListener(Button2);
+        Debug.Log("Your Choice is " + member1Index);
+    }
+    void Select2ndTeamMembers()
+    {
+        Debug.Log("Select 2nd Team Members by pressing 0-4");
+        if (Input.GetKey (KeyCode.Alpha0))
+        {
+            member2Index = 0;
+        }
+        if (Input.GetKey (KeyCode.Alpha1))
+        {
+            member2Index = 1;
+        }
+        if (Input.GetKey (KeyCode.Alpha2))
+        {
+            member2Index = 2;
+        }
+        if (Input.GetKey (KeyCode.Alpha3))
+        {
+            member2Index = 3;
+        }
+        if (Input.GetKey (KeyCode.Alpha4))
+        {
+            member2Index = 4;
+        }
+        Debug.Log("Your Choice is " + member2Index);
+    }
+    void Select3rdTeamMembers()
+    {
+        Debug.Log("Select 3rd Team Members by pressing 0-4");
+        if (Input.GetKey (KeyCode.Alpha0))
+        {
+            member3Index = 0;
+        }
+        if (Input.GetKey (KeyCode.Alpha1))
+        {
+            member3Index = 1;
+        }
+        if (Input.GetKey (KeyCode.Alpha2))
+        {
+            member3Index = 2;
+        }
+        if (Input.GetKey (KeyCode.Alpha3))
+        {
+            member3Index = 3;
+        }
+        if (Input.GetKey (KeyCode.Alpha4))
+        {
+            member3Index = 4;
+        }
+        Debug.Log("Your Choice is " + member3Index);
         
-        characters[3].onClick.AddListener(Button3);
         
-        characters[4].onClick.AddListener(Button4);
+    }
+    IEnumerator wait()
+    {
+        yield return new WaitForSeconds(5);
     }
 
-    void Button0()
-    {
-        buttonOnClick[0] = 1;
-    }
-    void Button1()
-    {
-        buttonOnClick[1] = 1;
-    }
-    void Button2()
-    {
-        buttonOnClick[2] = 1;
-    }
-    void Button3()
-    {
-        buttonOnClick[3] = 1;
-    }
-    void Button4()
-    {
-        buttonOnClick[4] = 1;
-    }
 }
